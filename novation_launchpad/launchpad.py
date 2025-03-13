@@ -86,11 +86,10 @@ class Midi:
 	#-------------------------------------------------------------------------------------
 	def CloseOutput( self ):
 		if self.devOut is not None:
-			#self.devOut.close()
+			self.devOut.close_port()
+			self.devOut.delete()
 			del self.devOut
 			self.devOut = None
-
-
 	#-------------------------------------------------------------------------------------
 	#--
 	#-------------------------------------------------------------------------------------
@@ -117,6 +116,7 @@ class Midi:
 	def CloseInput( self ):
 		if self.devIn is not None:
 			self.devIn.close_port()
+			self.devIn.delete()
 			del self.devIn
 			self.devIn = None
 		
@@ -207,7 +207,8 @@ class Midi:
 					if port.lower().find( name.lower() ) >= 0:
 						ret.append( i )
 					i += 1
-
+				midi_out.close_port()
+				midi_out.delete()
 			if input == True:
 				midi_in = rtmidi.MidiIn()
 				for port in midi_in.get_ports():
@@ -217,7 +218,8 @@ class Midi:
 					if port.lower().find( name.lower() ) >= 0:
 							ret.append( i )
 					i += 1
-
+				midi_in.close_port()
+				midi_in.delete()
 			return ret
 
 			
@@ -1616,7 +1618,7 @@ class LaunchControlXL( LaunchpadBase ):
 	#-------------------------------------------------------------------------------------
 	# Overrides "LaunchpadBase" method
 	def Check( self, number = 0, name = "Control XL" ):
-		return super( LaunchpadPro, self ).Check( number = number, name = name )
+		return super( LaunchControlXL, self ).Check( number = number, name = name )
 
 
 	#-------------------------------------------------------------------------------------
